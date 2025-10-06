@@ -7,7 +7,7 @@ using MauiCRUD.Models;
 
 namespace MauiCRUD.ViewModels
 {
-    public class ProductsViewModel : ObservableObject
+    public partial class ProductsViewModel : ObservableObject
     {
         private readonly DatabaseContext _context;
 
@@ -23,7 +23,7 @@ namespace MauiCRUD.ViewModels
         private Product _operatingProduct = new();
 
         [ObservableProperty]
-        private string _isBusy;
+        private bool _isBusy;
 
         [ObservableProperty]
         private string _busyText;
@@ -48,7 +48,7 @@ namespace MauiCRUD.ViewModels
         private async Task ExecuteAsync(Func<Task> operating, string? busyText = null)
         {
             IsBusy = true;
-            busyText = busyText ?? "Processing...";
+            BusyText = busyText ?? "Processing...";
             try
             {
                 await operating?.Invoke();
@@ -61,7 +61,7 @@ namespace MauiCRUD.ViewModels
             finally
             {
                 IsBusy = false;
-                busyText = "Processing...";
+                BusyText = "Processing...";
             }
         }
 
@@ -84,7 +84,6 @@ namespace MauiCRUD.ViewModels
             }
 
             var busyText = OperatingProduct.Id == 0 ? "Creating product..." : "Updating product...";
-            Thread.Sleep(3000);
             await ExecuteAsync(async () =>
             {
                 if (OperatingProduct.Id == 0)
@@ -99,6 +98,7 @@ namespace MauiCRUD.ViewModels
                         var productCopy = OperatingProduct.Clone();
 
                         var index = Products.IndexOf(OperatingProduct);
+                        Products.RemoveAt(index);
                         Products.Insert(index, productCopy);
                     }
                     else
@@ -124,7 +124,7 @@ namespace MauiCRUD.ViewModels
                 }
                 else
                 {
-                    await Shell.FlyoutContentProperty.DisplayAlert("Delete Error", "Product was not deleted", "OK");
+                    await Shell.Current.DisplayAlert("Delete Error", "Product was not deleted", "OK");
                 }
             }, "Deleting product...");
         }
