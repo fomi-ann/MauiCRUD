@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQLite;
+﻿﻿using SQLite;
+
 
 namespace MauiCRUD.Models
 {
@@ -26,7 +22,6 @@ namespace MauiCRUD.Models
             {
                 return (false, $"{nameof(Price)} should be greater than 0");
             }
-
             return (true, null);
         }
     }

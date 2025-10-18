@@ -1,5 +1,6 @@
 ﻿using MauiCRUD.ViewModels;
 
+
 namespace MauiCRUD
 {
     public partial class MainPage : ContentPage
@@ -15,11 +16,11 @@ namespace MauiCRUD
             BindingContext = productsViewModel;
             _productsViewModel = productsViewModel;
         }
+
         protected async override void OnAppearing()
         {
             base.OnAppearing();
             await _productsViewModel.LoadProductAsync();
         }
-
     }
 }

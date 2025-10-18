@@ -1,12 +1,13 @@
-﻿using System.Linq.Expressions;
-using SQLite;
+﻿using SQLite;
+using System.Linq.Expressions;
+
 
 namespace MauiCRUD.Data
 {
     public class DatabaseContext
     {
-        private const string DbName = "CRUDdb6";
-
+        private const string DbName = "CRUDdb5" +
+            "";
         private static string DbPath => Path.Combine(".", DbName);
 
         private SQLiteAsyncConnection _connection;
@@ -21,7 +22,7 @@ namespace MauiCRUD.Data
             return await table.ToListAsync();
         }
 
-        public async Task<AsyncTableQuery<TTable>> GetTableAsync<TTable>() where TTable: class, new()
+        public async Task<AsyncTableQuery<TTable>> GetTableAsync<TTable>() where TTable : class, new()
         {
             await CreateTableIfNotExists<TTable>();
             return Database.Table<TTable>();
@@ -63,7 +64,7 @@ namespace MauiCRUD.Data
         public async Task<bool> DeleteItemByKeyAsync<TTable>(object primaryKey) where TTable : class, new()
         {
             await CreateTableIfNotExists<TTable>();
-            return await Database.DeleteAsync(primaryKey) > 0;
+            return await Database.DeleteAsync<TTable>(primaryKey) > 0;
         }
 
         public async ValueTask DisposeAsync() => await _connection.CloseAsync();
@@ -73,5 +74,6 @@ namespace MauiCRUD.Data
             var table = await GetTableAsync<TTable>();
             return await table.Where(predicate).ToListAsync();
         }
+
     }
 }

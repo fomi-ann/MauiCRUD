@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiCRUD.MainPage"
-             xmlns:models="clr-namespace:MauiCRUD.Models"
              xmlns:vm="clr-namespace:MauiCRUD.ViewModels"
+             xmlns:models="clr-namespace:MauiCRUD.Models"
              x:DataType="vm:ProductsViewModel"
              Title="SQLite CRUD operations">
 
@@ -22,7 +22,7 @@
                                HorizontalOptions="Center" />
             <Label Text="{Binding BusyText}"
                    VerticalOptions="Center"
-                   HorizontalOptions="Center" />
+                   HorizontalOptions="Center"/>
         </VerticalStackLayout>
 
         <Label Grid.Row="0"
@@ -37,21 +37,22 @@
                             ItemsSource="{Binding Products}">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout ItemSpacing="10"
-                                       Orientation="Vertical" />
+                                       Orientation="Vertical"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Product">
                         <Grid RowDefinitions="Auto, Auto"
                               ColumnDefinitions="*, Auto"
                               RowSpacing="5"
+                              Padding="5"
                               BackgroundColor="MediumPurple">
                             <Label Grid.Row="0"
                                    Grid.Column="0"
                                    Text="{Binding Name}"
-                                   FontAttributes="Bold" />
+                                   FontAttributes="Bold"/>
                             <Label Grid.Row="1"
                                    Grid.Column="0"
-                                   Text="{Binding Price, StringFormat=Empty'Price: {0}'}"
+                                   Text="{Binding Price, StringFormat='Price: {0}'}"
                                    FontSize="12"
                                    FontAttributes="Bold" />
 
@@ -72,7 +73,7 @@
                                     HeightRequest="25"
                                     FontSize="12"
                                     CornerRadius="2"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsViewModel}}, Path=SetOperatingProductCommand}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsViewModel}}, Path=DeleteProductCommand}"
                                     CommandParameter="{Binding Id}" />
 
                         </Grid>
@@ -85,8 +86,8 @@
                             <Label Text="No Products Found"
                                    FontSize="18"
                                    FontAttributes="Bold"
-                                   HorizontalTextAlignment="Center" />
-                            <Label Text="Try creating a product from the form below" />
+                                   HorizontalTextAlignment="Center"/>
+                            <Label Text="Try creating a product from the form below"/>
                         </VerticalStackLayout>
                     </ContentView>
                 </CollectionView.EmptyView>
@@ -94,7 +95,7 @@
 
             <VerticalStackLayout Grid.Row="1">
                 <BoxView Color="{DynamicResource Primary}"
-                         HeightRequest="1" />
+                         HeightRequest="1"/>
                 <Grid RowDefinitions="Auto, Auto"
                       ColumnDefinitions="*, Auto"
                       Padding="10"
@@ -103,7 +104,7 @@
                       BackgroundColor="#CCBFFA">
                     <VerticalStackLayout Grid.Row="0"
                                          Grid.Column="0">
-                        <Label Text="Name" />
+                        <Label Text="Name"/>
                         <Entry Text="{Binding OperatingProduct.Name}"
                                Placeholder="Product Name"
                                Margin="0"
@@ -112,12 +113,12 @@
 
                     <VerticalStackLayout Grid.Row="0"
                                          Grid.Column="1">
-                        <Label Text="Price" />
+                        <Label Text="Price"/>
                         <Entry Text="{Binding OperatingProduct.Price}"
                                Placeholder="Product Price"
                                Margin="0"
                                BackgroundColor="#DAD1F9"
-                               Keyboard="Numeric"/>
+                               Keyboard="Numeric" />
                     </VerticalStackLayout>
 
                     <Button Grid.Row="1"
@@ -140,6 +141,4 @@
             </VerticalStackLayout>
         </Grid>
     </Grid>
-        
-
 </ContentPage>

@@ -1,9 +1,9 @@
-﻿
-using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using MauiCRUD.Data;
 using MauiCRUD.Models;
+using System.Collections.ObjectModel;
+
 
 namespace MauiCRUD.ViewModels
 {
@@ -77,7 +77,7 @@ namespace MauiCRUD.ViewModels
             }
 
             var (isValid, errorMessage) = OperatingProduct.Validate();
-            if (isValid)
+            if (!isValid)
             {
                 await Shell.Current.DisplayAlert("Validate Error", errorMessage, "Ok");
                 return;
@@ -93,12 +93,13 @@ namespace MauiCRUD.ViewModels
                 }
                 else
                 {
-                    if(await _context.UpdateItemAsync<Product>(OperatingProduct))
+                    if (await _context.UpdateItemAsync<Product>(OperatingProduct))
                     {
                         var productCopy = OperatingProduct.Clone();
 
                         var index = Products.IndexOf(OperatingProduct);
                         Products.RemoveAt(index);
+
                         Products.Insert(index, productCopy);
                     }
                     else
@@ -107,7 +108,6 @@ namespace MauiCRUD.ViewModels
                         return;
                     }
                 }
-
                 SetOperatingProductCommand.Execute(new());
             }, busyText);
         }
@@ -124,7 +124,7 @@ namespace MauiCRUD.ViewModels
                 }
                 else
                 {
-                    await Shell.Current.DisplayAlert("Delete Error", "Product was not deleted", "OK");
+                    await Shell.Current.DisplayAlert("Delete Error", "Product was not deletes", "OK");
                 }
             }, "Deleting product...");
         }
